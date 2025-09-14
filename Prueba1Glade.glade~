@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.40.0 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkImage" id="IDFinalizeIMG">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="pixbuf">Images/1.png</property>
+  </object>
+  <object class="GtkImage" id="IDStepIMG">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="pixbuf">Images/2.png</property>
+  </object>
+  <object class="GtkWindow" id="IDWindow">
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkFixed" id="IDFixed">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkImage" id="Background">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="pixbuf">Images/Background.png</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkComboBoxText" id="IDForm">
+            <property name="width-request">168</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="active-id">0</property>
+            <items>
+              <item id="&lt;Enter ID&gt;" translatable="yes">Form1</item>
+              <item translatable="yes">Form2</item>
+              <item translatable="yes">Form3</item>
+              <item translatable="yes">Form4</item>
+              <item id="0" translatable="yes">Default</item>
+            </items>
+          </object>
+          <packing>
+            <property name="x">525</property>
+            <property name="y">850</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="IDOrder">
+            <property name="width-request">168</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="x">315</property>
+            <property name="y">850</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="IDStepBtn">
+            <property name="width-request">-1</property>
+            <property name="height-request">-1</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="image">IDStepIMG</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="x">265</property>
+            <property name="y">900</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkToggleButton" id="IDFinalizeBtn">
+            <property name="width-request">36</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="halign">center</property>
+            <property name="image">IDFinalizeIMG</property>
+            <property name="relief">none</property>
+            <property name="image-position">top</property>
+            <property name="always-show-image">True</property>
+          </object>
+          <packing>
+            <property name="x">525</property>
+            <property name="y">900</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="IDTItle">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="pixbuf">Images/Title.png</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
