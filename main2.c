@@ -29,21 +29,48 @@ void edgeGuard(int *row, int *col, int order) {
 
 // Casilla Inicial
 void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCol) {
-    /*int a = 0, b = 0;
-    while (
-                b == 0 ||
-                a == order-1 ||
-                a + b == order - 1 ||          // diagonal secundaria
-                (a == 0 && b == 0) ||
-                (a == 0 && b == order-1) ||
-                (a == order-1 && b == 0) ||
-                (a == order-1 && b == order-1)
-    ){
-        a = rand() % order;
-        b = rand() % order;
+    int a = 0, b = 0;
+    // arriba - derecha
+    if (*stepRow == -1 && *stepCol == 1) {
+        while (b == 0 || a == order - 1 || a + b == order - 1) {
+            a = rand() % order;
+            b = rand() % order;
+        }
+    }
+
+    // arriba - izquierda
+    if (*stepRow == -1 && *stepCol == -1) {
+        while (b == order - 1 || a == order - 1 || a == b) {
+            a = rand() % order;
+            b = rand() % order;
+        }
+    }
+    
+    // abajo - derecha
+    if (*stepRow == 1 && *stepCol == 1) {
+        while (b == 0 || a == 0 || a == b) {
+            a = rand() % order;
+            b = rand() % order;
+        }
+    }
+
+    // abajo - izquierda
+    if (*stepRow == 1 && *stepCol == -1) {
+        while (b == order - 1 || a == 0 || a + b == order - 1) {
+            a = rand() % order;
+            b = rand() % order;
+        }
+    }
+
+    // caballo
+    if (*stepRow == 2 && *stepCol == 1) {
+        while (b != order / 2 || a != 0) {
+            a = rand() % order;
+            b = rand() % order;
+        }
     }
     *row = a;
-    *col = b;*/
+    *col = b;
 }
 
 // Casilla Final
@@ -190,7 +217,7 @@ void magicSquareAlgorithm(int order, int stepRow, int stepCol, int initialRow, i
         sumatoriaD += square[i][order - 1 - i];
     if (sumatoriaD != suma) valido = 0;
     
-    /*
+    
     if (valido) {
         printf("Cuadro válido\n");
         printMatrix(order, square);
@@ -202,7 +229,7 @@ void magicSquareAlgorithm(int order, int stepRow, int stepCol, int initialRow, i
         printf("Final: (%d, %d)\n", finalRow, finalCol);
         printf("BreakMove: (%d, %d)\n", breakMoveRow, breakMoveCol);
         printMatrix(order, square);
-    }*/
+    }
 }
 
 // Recorrer todas las posiciones iniciales válidas
