@@ -58,7 +58,7 @@ void getFinalPosition(const int *order, const int initialRow, const int initialC
 }
 
 // Movimiento de Ruptura (Break Move)
-int minimal_disp(int a, int b, int N) {
+int minimal_dist(int a, int b, int N) {
     int raw = b - a;
     int cand1 = raw;
     int cand2 = raw - N;
@@ -78,8 +78,8 @@ void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow,
     printf("Final Position: (%d, %d)\n", finalRow, finalCol); // Debug print
 
     // Usar desplazamiento mínimo en toro desde la final a la inicial
-    int dx = minimal_disp(finalRow, initialRow, order);
-    int dy = minimal_disp(finalCol, initialCol, order);
+    int dx = minimal_dist(finalRow, initialRow, order);
+    int dy = minimal_dist(finalCol, initialCol, order);
 
     printf("Break Move (before adjustment): (%d, %d)\n", dx, dy); // Debug print
 

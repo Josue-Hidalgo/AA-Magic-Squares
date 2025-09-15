@@ -4,39 +4,6 @@
 #include <time.h> 
 
 // FUNCIONES AUXILIARES
-// Recorrer todas las posiciones iniciales válidas
-void getAllValidInitialPositions(int order, int stepRow, int stepCol) {
-        printf("Posiciones iniciales válidas:\n");
-        for (int a = 0; a < order; a++) {
-            for (int b = 0; b < order; b++) {
-                int noApta = 0;
-                // u-r: stepRow = -1, stepCol = 1
-                if (stepRow == -1 && stepCol == 1) {
-                    if (a + b == order - 1 || b == 0 || a == order-1) noApta = 1;
-                }
-                // u-l: stepRow = -1, stepCol = -1
-                else if (stepRow == -1 && stepCol == -1) {
-                    if (a == b || b == order-1 || a == order-1) noApta = 1;
-                }
-                // d-r: stepRow = 1, stepCol = 1
-                else if (stepRow == 1 && stepCol == 1) {
-                    if (a == b || b == 0 || a == 0) noApta = 1;
-                }
-                // d-l: stepRow = 1, stepCol = -1
-                else if (stepRow == 1 && stepCol == -1) {
-                    if (a + b == order - 1 || b == order-1 || a == 0) noApta = 1;
-                }
-                // d-d-r: stepRow = 2, stepCol = 1 (caballo)
-                else if (stepRow == 2 && stepCol == 1) {
-                    // Sugerencia: puedes definir aquí los valores no válidos para el caballo
-                    // Por ejemplo, podrías excluir esquinas:
-                    if ((a == 0 && b == 0) || (a == 0 && b == order-1) || (a == order-1 && b == 0) || (a == order-1 && b == order-1)) noApta = 1;
-                }
-                if (noApta) continue;
-                printf("(%d, %d)\n", a, b);
-            }
-        }
-}
 
 // Imprimir matriz cuadrada
 void printMatrix(int order, int square[order][order]) {
@@ -61,8 +28,8 @@ void edgeGuard(int *row, int *col, int order) {
 }
 
 // Casilla Inicial
-void getInitialPosition(int order, int *row, int *col) {
-    int a = 0, b = 0;
+void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCol) {
+    /*int a = 0, b = 0;
     while (
                 b == 0 ||
                 a == order-1 ||
@@ -76,7 +43,7 @@ void getInitialPosition(int order, int *row, int *col) {
         b = rand() % order;
     }
     *row = a;
-    *col = b;
+    *col = b;*/
 }
 
 // Casilla Final
@@ -195,7 +162,10 @@ void magicSquareAlgorithm(int order, int stepRow, int stepCol, int initialRow, i
         }
     }
     int suma = order * (1 + order * order) / 2;
+    
+    // En lugar de setear valido tiene que devolver los valores de las sumas.
     int valido = 1;
+    
     // Verificar filas
     for (int i = 0; i < order; i++) {
         int sumatoria = 0;
@@ -219,6 +189,8 @@ void magicSquareAlgorithm(int order, int stepRow, int stepCol, int initialRow, i
     for (int i = 0; i < order; i++)
         sumatoriaD += square[i][order - 1 - i];
     if (sumatoriaD != suma) valido = 0;
+    
+    /*
     if (valido) {
         printf("Cuadro válido\n");
         printMatrix(order, square);
@@ -230,23 +202,13 @@ void magicSquareAlgorithm(int order, int stepRow, int stepCol, int initialRow, i
         printf("Final: (%d, %d)\n", finalRow, finalCol);
         printf("BreakMove: (%d, %d)\n", breakMoveRow, breakMoveCol);
         printMatrix(order, square);
-    }
+    }*/
 }
 
+// Recorrer todas las posiciones iniciales válidas
 void recorrerTodasLasIniciales(int order, int stepRow, int stepCol) {
     for (int a = 0; a < order; a++) {
         for (int b = 0; b < order; b++) {
-            if (
-                b == 0 ||
-                a == order-1 ||
-                a + b == order - 1 ||          // diagonal secundaria
-                (a == 0 && b == 0) ||
-                (a == 0 && b == order-1) ||
-                (a == order-1 && b == 0) ||
-                (a == order-1 && b == order-1)
-            ){
-                continue;
-            }
             magicSquareAlgorithm(order, stepRow, stepCol, a, b);
         }
     }
@@ -256,10 +218,12 @@ void recorrerTodasLasIniciales(int order, int stepRow, int stepCol) {
 int main() {
     // Inicializaciones
     srand(time(0));
-    int order, stepRow, stepCol;
+    int order, stepRow, stepCol, initialRow, initialCol;
     getOrder(&order);
     getStep(&stepRow, &stepCol);
-    recorrerTodasLasIniciales(order, stepRow, stepCol);
-    return 0;   
-
+    getInitialPosition(order, &initialRow, &initialCol, &stepRow, &stepCol);
+    magicSquareAlgorithm(order, stepRow, stepCol, initialRow, initialCol);
+    //recorrerTodasLasIniciales(order, stepRow, stepCol);
+    //getAllValidInitialPositions(order, stepRow, stepCol);
+    return 0;
 }
