@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+// FUNCIONES AUXILIARES
 /* Función para hacer el efecto cilindro, o sea, 
 que si el movimiento hace que se salga del cuadro,
 se regrese adentro en la posición equivalente
@@ -17,8 +18,19 @@ void edgeGuard(int *row, int *col, int order) {
         *col = *col - order;
 }
 
-void guessInitialBox(int order, int *row, int *col) {
-    int a,b,mid;
+void breakMove(int *row, int *col, const int *rowFinal, const int *colFinal, int order) {
+    int intialRow, initialCol;
+
+    int rowBreakMove = *row - *rowFinal;
+    int colBreakMove = *col - *colFinal;
+
+    *row -= rowBreakMove;
+    *col -= colBreakMove;
+}
+
+// FUNCIONES GET
+void getInitialPosition(int order, int *row, int *col) {
+    int a = 0,b = 0,mid = 0;
     mid = (order - 1) / 2;
 
     while (
@@ -35,17 +47,39 @@ void guessInitialBox(int order, int *row, int *col) {
     *col = b;
 }
 
-int main() {
-    int order;
-    
-    printf("Digite un numero impar mayor que 3 y menor que 21: ");
-    scanf("%d", &order);
+void getFinalPosition(int order, const int row, const int col, int *rowFinal, int *colFinal) {
+    int a,b,mid;
+    mid = (order - 1) / 2;
 
-    if (order % 2 == 0 || order < 3 || order > 21) {
-        printf("El numero debe ser impar, mayor que 3 y menor que 21\n");
-        return 1;
+    a = 2 * mid - (row);
+    b = 2 * mid - (col);
+
+    *rowFinal = a;
+    *colFinal = b;
+}
+
+void getOrder(int *order) {
+    do {
+        printf("Digite un numero impar mayor que 3 y menor que 21: ");
+        scanf("%d", order);
+    } while (*order % 2 == 0 || *order < 3 || *order > 21);
+}
+
+void print(const int square[3][3], int order){
+    for (int i = 0; i < order; i++) {
+        for (int j = 0; j < order; j++) {
+            printf("%3d ", square[i][j]);
+        }
+        printf("\n");
     }
+}
 
+// MAIN
+int main() {
+    int order, row, col, rowFinal, colFinal;
+
+    getOrder(&order);
+    
     int square[order][order]; // crea el cuadro (una matriz)
 
     // rellena el cuadro de 0s
@@ -55,12 +89,15 @@ int main() {
         }
     }
 
-    // pone un 1 en el centro de la primera fila
-    int row = 0;
-    int col = order / 2;
+    getInitialPosition(order, &row, &col);
+    getFinalPosition(order, row, col, &rowFinal, &colFinal);
+
+    // pone un 1 en una posición inicial aleatoria
     square[row][col] = 1;
 
     for (int i = 2; i <= pow(order, 2); i++) {
+
+        //MOVIMIENTO SELECCINADO
         // hace el movimiento diagonal hacia arriba
         row = row - 1;
         col = col + 1;
@@ -70,25 +107,27 @@ int main() {
         if (square[row][col] == 0) { // si la casilla es un 0, pone el siguiente número
             square[row][col] = i;
         } else { 
+            //-(MOVIMIENTO SELECCIONADO)
             // si ya hay un número, se regresa a la casilla original
             row = row + 1;
             col = col - 1;
+            
             // y hace el break move (bajar 1)
-            row = row + 1;
+            breakMove(&row, &col, &rowFinal, &colFinal, order);
             edgeGuard(&row, &col, order); // revisa de nuevo si se salió del cuadro
+
             square[row][col] = i;
         }
+
+        print(square, order);
+        getchar();
+        
     }
 
     // imprimir el cuadro mágico
     printf("\nCuadro Magico de orden %d:\n", order);
-    
-    for (int i = 0; i < order; i++) {
-        for (int j = 0; j < order; j++) {
-            printf("%3d ", square[i][j]);
-        }
-        printf("\n");
-    }
+    print(square, order);
+
     int suma = order * (1 + pow(order, 2)) / 2;
     printf("\nSuma que debe dar en todas: %d\n\n", suma);
 
