@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h> 
 
 // FUNCIONES AUXILIARES
 /* Función para hacer el efecto cilindro, o sea, 
@@ -63,25 +64,80 @@ void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow,
     *breakMoveCol = initialCol - finalCol;
 }
 
+void getStep(int *stepRow, int *stepCol) {
+    int option;
+    do {
+        printf("Introduzca una forma que se utilizará para construir el cuadrado mágico: \n");
+        printf("1. arriba-derecha (up-right)\n");
+        printf("2. arriba-izquierda (up-left)\n");
+        printf("3. abajo-derecha (down-right)\n");
+        printf("4. abajo-izquierda (down-left)\n");
+        printf("5. izquierda-arriba (left-up)\n");
+        printf("6. izquierda-abajo (left-down)\n");
+        printf("7. derecha-arriba (right-up)\n");
+        printf("8. derecha-abajo (right-down)\n");
+        printf("9. Caballo (abajo-abajo-derecha)\n");
+
+        scanf("%d", &option);
+    } while (option < 1 || option > 9);
+
+    switch (option) {
+        case 1: // arriba-derecha
+            *stepRow = -1;
+            *stepCol = 1;
+            break;
+        case 2: // arriba-izquierda
+            *stepRow = -1;
+            *stepCol = -1;
+            break;
+        case 3: // abajo-derecha
+            *stepRow = 1;
+            *stepCol = 1;
+            break;
+        case 4: // abajo-izquierda
+            *stepRow = 1;
+            *stepCol = -1;
+            break;
+        case 5: // izquierda-arriba
+            *stepRow = -1;
+            *stepCol = 0;
+            break;
+        case 6: // izquierda-abajo
+            *stepRow = 1;
+            *stepCol = 0;
+            break;
+        case 7: // derecha-arriba
+            *stepRow = -1;
+            *stepCol = 0;
+            break;
+        case 8: // derecha-abajo
+            *stepRow = 1;
+            *stepCol = 0;
+            break;
+        case 9: // caballo (abajo-abajo-derecha)
+            *stepRow = 2;
+            *stepCol = 1;
+            break;
+    }
+}
+
 // MAIN
 int main() {
     srand(time(0));
 
-    int order, row, col, breakMoveRow, breakMoveCol;
+    int order, row, col, breakMoveRow, breakMoveCol, stepRow, stepCol;
 
     getOrder(&order);
+    getStep(&stepRow, &stepCol);
     
     int square[order][order]; // crea el cuadro (una matriz)
 
     // rellena el cuadro de 0s
-    for (int i = 0; i < order; i++) {
-        for (int j = 0; j < order; j++) {
+    for (int i = 0; i < order; i++) 
+        for (int j = 0; j < order; j++)
             square[i][j] = 0;
-        }
-    }
 
     getInitialPosition(order, &row, &col);
-    
     getBreakMove(row, col, &breakMoveRow, &breakMoveCol, order);
 
     // pone un 1 en una posición inicial aleatoria
@@ -91,8 +147,8 @@ int main() {
 
         //MOVIMIENTO SELECCINADO
         // hace el movimiento diagonal hacia arriba
-        row = row - 1;
-        col = col + 1;
+        row += stepRow;
+        col += stepCol;
 
         edgeGuard(&row, &col, order);
 
@@ -101,9 +157,9 @@ int main() {
         } else { 
             //-(MOVIMIENTO SELECCIONADO)
             // si ya hay un número, se regresa a la casilla original
-            row = row + 1;
-            col = col - 1;
-            
+            row -= stepRow;
+            col -= stepCol;
+
             // y hace el break move (bajar 1)
             row += breakMoveRow;
             col += breakMoveCol;
