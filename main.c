@@ -4,10 +4,17 @@
 #include <time.h> 
 
 // FUNCIONES AUXILIARES
-/* Función para hacer el efecto cilindro, o sea, 
-que si el movimiento hace que se salga del cuadro,
-se regrese adentro en la posición equivalente
-*/
+// Imprimir matriz cuadrada
+void printMatrix(int order, int square[order][order]) {
+    for (int i = 0; i < order; i++) {
+        for (int j = 0; j < order; j++) {
+            printf("%3d ", square[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Efecto Cilindrico
 void edgeGuard(int *row, int *col, int order) {
     if (*row < 0)
         *row = *row + order;
@@ -19,17 +26,18 @@ void edgeGuard(int *row, int *col, int order) {
         *col = *col - order;
 }
 
-// FUNCIONES GET
-void getInitialPosition(int order, int *row, int *col) {
-    int a = 0,b = 0,mid = 0;
-    mid = (order - 1) / 2;
 
+// Casilla Inicial
+void getInitialPosition(int order, int *row, int *col) {
+    int a = 0, b = 0;
     while (
-        (a == 0 && b == 0)          ||
-        (a == 0 && b == order-1)    ||
-        (a == order-1 && b == 0)    ||
-        (a == mid && b == mid)      ||
-        (a == order-1 && b == order-1)
+    b == 0 ||                // primera columna
+    a == order-1 ||          // última fila
+    a == b ||                // diagonal principal
+    (a == 0 && b == 0) ||    // esquina superior izquierda
+    (a == 0 && b == order-1) || // esquina superior derecha
+    (a == order-1 && b == 0) || // esquina inferior izquierda
+    (a == order-1 && b == order-1) // esquina inferior derecha
     ) {
         a = rand() % order;
         b = rand() % order;
@@ -38,17 +46,49 @@ void getInitialPosition(int order, int *row, int *col) {
     *col = b;
 }
 
-void getFinalPosition(const int *order, const int row, const int col, int *rowFinal, int *colFinal) {
+// Casilla Final
+void getFinalPosition(const int *order, const int initialRow, const int initialCol, int *rowFinal, int *colFinal) {
     int a,b,mid;
     mid = (*order - 1) / 2;
 
-    a = 2 * mid - (row);
-    b = 2 * mid - (col);
+    a = 2 * mid - (initialRow);
+    b = 2 * mid - (initialCol);
 
     *rowFinal = a;
     *colFinal = b;
 }
 
+// Movimiento de Ruptura (Break Move)
+int minimal_disp(int a, int b, int N) {
+    int raw = b - a;
+    int cand1 = raw;
+    int cand2 = raw - N;
+    int cand3 = raw + N;
+    int best = cand1;
+    if (abs(cand2) < abs(best)) best = cand2;
+    if (abs(cand3) < abs(best)) best = cand3;
+    return best;
+}
+
+// Movimiento de Ruptura (Break Move)
+void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow, int *breakMoveCol, int order){
+    int finalRow, finalCol;
+    getFinalPosition(&order, initialRow, initialCol, &finalRow, &finalCol);
+
+    printf("Initial Position: (%d, %d)\n", initialRow, initialCol); // Debug print
+    printf("Final Position: (%d, %d)\n", finalRow, finalCol); // Debug print
+
+    // Usar desplazamiento mínimo en toro desde la final a la inicial
+    int dx = minimal_disp(finalRow, initialRow, order);
+    int dy = minimal_disp(finalCol, initialCol, order);
+
+    printf("Break Move (before adjustment): (%d, %d)\n", dx, dy); // Debug print
+
+    *breakMoveRow = dx;
+    *breakMoveCol = dy;
+}
+
+// Orden (Luego se cambiará por inpun del GTKGlade)
 void getOrder(int *order) {
     do {
         printf("Digite un numero impar mayor que 3 y menor que 21: ");
@@ -56,14 +96,7 @@ void getOrder(int *order) {
     } while (*order % 2 == 0 || *order < 3 || *order > 21);
 }
 
-void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow, int *breakMoveCol, int order){
-    int finalRow, finalCol;
-    getFinalPosition(&order, initialRow, initialCol, &finalRow, &finalCol);
-
-    *breakMoveRow = initialRow - finalRow;
-    *breakMoveCol = initialCol - finalCol;
-}
-
+// Paso (Luego se cambiará por input del GTKGlade)
 void getStep(int *stepRow, int *stepCol) {
     int option;
     do {
@@ -121,71 +154,71 @@ void getStep(int *stepRow, int *stepCol) {
     }
 }
 
-// MAIN
+// MAIN //
 int main() {
+    // Inicializaciones
     srand(time(0));
-
     int order, row, col, breakMoveRow, breakMoveCol, stepRow, stepCol;
-
     getOrder(&order);
     getStep(&stepRow, &stepCol);
-    
-    int square[order][order]; // crea el cuadro (una matriz)
 
-    // rellena el cuadro de 0s
+    printf("Order chosen: %d\n", order); // Debug print
+    printf("Step chosen: (%d, %d)\n", stepRow, stepCol); // Debug print
+
+    int square[order][order];
     for (int i = 0; i < order; i++) 
         for (int j = 0; j < order; j++)
             square[i][j] = 0;
-
     getInitialPosition(order, &row, &col);
     getBreakMove(row, col, &breakMoveRow, &breakMoveCol, order);
 
-    // pone un 1 en una posición inicial aleatoria
+    // ALGORITMO: CUADRO MAGICO
+
+    // 1 SE COLOCA EN POSICION INICIAL
+    printf("Initial Position chosen: (%d, %d)\n", row, col); // Debug print
     square[row][col] = 1;
 
+    // SE LLENA EL CUADRO A PARTIR DEL 2 HASTA order^2
     for (int i = 2; i <= pow(order, 2); i++) {
+        //printMatrix(order, square);
+        //printf("\n");
 
-        //MOVIMIENTO SELECCINADO
-        // hace el movimiento diagonal hacia arriba
+        // HACE EL MOVIMIENTO SELECCIONADO
         row += stepRow;
         col += stepCol;
 
         edgeGuard(&row, &col, order);
 
-        if (square[row][col] == 0) { // si la casilla es un 0, pone el siguiente número
+        // SI LA CASILLA ESTÁ VACÍA, SE COLOCA EL NÚMERO
+        if (square[row][col] == 0) { 
             square[row][col] = i;
         } else { 
-            //-(MOVIMIENTO SELECCIONADO)
-            // si ya hay un número, se regresa a la casilla original
+            // SI LA CASILLA YA TIENE UN NÚMERO
+
+            // SE DEVUELVE A LA CASILLA ANTERIOR
             row -= stepRow;
             col -= stepCol;
 
-            // y hace el break move (bajar 1)
+            // SE HACE EL MOVIMIENTO DE RUPTURA
             row += breakMoveRow;
             col += breakMoveCol;
-            edgeGuard(&row, &col, order); // revisa de nuevo si se salió del cuadro
+            edgeGuard(&row, &col, order);
 
+            // SE COLOCA EL NÚMERO
             square[row][col] = i;
         }
     }
 
-    // imprimir el cuadro mágico
+    // PRINT DEL CUADRO MAGICO
     printf("\nCuadro Magico de orden %d:\n", order);
-    for (int i = 0; i < order; i++) {
-        for (int j = 0; j < order; j++) {
-            printf("%3d ", square[i][j]);
-        }
-        printf("\n");
-    }
+    printMatrix(order, square);
 
+    // FÓRMULA DE LA SUMA
     int suma = order * (1 + pow(order, 2)) / 2;
     printf("\nSuma que debe dar en todas: %d\n\n", suma);
 
+    // VERIFICACIÓN DE SUMAS
 
-    // *************************************************
-    // SECCIÓN PARA VER LAS SUMAS DE LAS HORIZONTALES, VERTICALES Y DIAGONALES
-    // *************************************************
-    
     // filas
     for (int i = 0; i < order; i++) { // filas
         int sumatoria = 0;
@@ -208,7 +241,7 @@ int main() {
         printf("\n");
     }
 
-    // diagonales
+    // diagonal izquierda
     int sumatoriaD = 0;
     for (int i = 0; i < order; i++) {    
         sumatoriaD += square[i][i];
@@ -216,6 +249,7 @@ int main() {
     }
     printf("Sumatoria de la diagonal izquierda: %d\n\n", sumatoriaD);
 
+    // diagonal derecha
     sumatoriaD = 0;
     for (int i = 0; i < order; i++) {
         sumatoriaD += square[i][order - 1 - i];

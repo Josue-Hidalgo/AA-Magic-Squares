@@ -1,66 +1,248 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <time.h> 
 
-int abs_int(int x){ return x < 0 ? -x : x; }
+// FUNCIONES AUXILIARES
+// Recorrer todas las posiciones iniciales válidas
+void getAllValidInitialPositions(int order) {
+    printf("Posiciones iniciales válidas:\n");
+    for (int a = 0; a < order; a++) {
+        for (int b = 0; b < order; b++) {
+            if (
+                b == 0 ||                // primera columna
+                a == order-1 ||          // última fila
+                a == b ||                // diagonal principal
+                (a == 0 && b == 0) ||    // esquina superior izquierda
+                (a == 0 && b == order-1) || // esquina superior derecha
+                (a == order-1 && b == 0) || // esquina inferior izquierda
+                (a == order-1 && b == order-1) // esquina inferior derecha
+            ) {
+                continue;
+            }
+            printf("(%d, %d)\n", a, b);
+        }
+    }
+}
 
+// Imprimir matriz cuadrada
+void printMatrix(int order, int square[order][order]) {
+    for (int i = 0; i < order; i++) {
+        for (int j = 0; j < order; j++) {
+            printf("%3d ", square[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Efecto Cilindrico
+void edgeGuard(int *row, int *col, int order) {
+    if (*row < 0)
+        *row = *row + order;
+    if (*row >= order)
+        *row = *row - order;
+    if (*col < 0)
+        *col = *col + order;
+    if (*col >= order)
+        *col = *col - order;
+}
+
+
+// Casilla Inicial
+void getInitialPosition(int order, int *row, int *col) {
+    int a = 0, b = 0;
+    while (
+    b == 0 ||                // primera columna
+    a == order-1 ||          // última fila
+    a == b ||                // diagonal principal
+    (a == 0 && b == 0) ||    // esquina superior izquierda
+    (a == 0 && b == order-1) || // esquina superior derecha
+    (a == order-1 && b == 0) || // esquina inferior izquierda
+    (a == order-1 && b == order-1) // esquina inferior derecha
+    ) {
+        a = rand() % order;
+        b = rand() % order;
+    }
+    *row = a;
+    *col = b;
+}
+
+// Casilla Final
+void getFinalPosition(const int *order, const int initialRow, const int initialCol, int *rowFinal, int *colFinal) {
+    int a,b,mid;
+    mid = (*order - 1) / 2;
+
+    a = 2 * mid - (initialRow);
+    b = 2 * mid - (initialCol);
+
+    *rowFinal = a;
+    *colFinal = b;
+}
+
+// Movimiento de Ruptura (Break Move)
 int minimal_disp(int a, int b, int N) {
     int raw = b - a;
     int cand1 = raw;
     int cand2 = raw - N;
     int cand3 = raw + N;
     int best = cand1;
-    if (abs_int(cand2) < abs_int(best)) best = cand2;
-    if (abs_int(cand3) < abs_int(best)) best = cand3;
+    if (abs(cand2) < abs(best)) best = cand2;
+    if (abs(cand3) < abs(best)) best = cand3;
     return best;
 }
 
-void print_route(int x1, int y1, int x2, int y2, int N) {
-    int dx = minimal_disp(x1, x2, N); // vertical: + -> bajar, - -> subir
-    int dy = minimal_disp(y1, y2, N); // horizontal: + -> derecha, - -> izquierda
-    int steps = abs_int(dx) + abs_int(dy);
+// Movimiento de Ruptura (Break Move)
+void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow, int *breakMoveCol, int order){
+    int finalRow, finalCol;
+    getFinalPosition(&order, initialRow, initialCol, &finalRow, &finalCol);
 
-    printf("Distancia mínima (torus Manhattan): %d pasos\n", steps);
-    printf("Desplazamiento vertical: %d (positivo = bajar)\n", dx);
-    printf("Desplazamiento horizontal: %d (positivo = derecha)\n", dy);
+    // Usar desplazamiento mínimo en toro desde la final a la inicial
+    int dx = minimal_disp(finalRow, initialRow, order);
+    int dy = minimal_disp(finalCol, initialCol, order);
 
-    // Empezamos en (x1,y1)
-    int x = x1, y = y1;
-    // Mover verticalmente
-    int k;
-    for (k = 0; k < abs_int(dx); ++k) {
-        if (dx > 0) {
-            // bajar (x+1 con wrap)
-            x = (x + 1) % N;
-            printf("%2d: bajar -> (%d,%d)\n", k+1, x, y);
+    *breakMoveRow = dx;
+    *breakMoveCol = dy;
+}
+
+// Orden (Luego se cambiará por inpun del GTKGlade)
+void getOrder(int *order) {
+    do {
+        printf("Digite un numero impar mayor que 3 y menor que 21: ");
+        scanf("%d", order);
+    } while (*order % 2 == 0 || *order < 3 || *order > 21);
+}
+
+// Paso (Luego se cambiará por input del GTKGlade)
+void getStep(int *stepRow, int *stepCol) {
+    int option;
+    do {
+        printf("Introduzca una forma que se utilizará para construir el cuadrado mágico: \n");
+        printf("1. arriba-derecha (up-right)\n");
+        printf("2. arriba-izquierda (up-left)\n");
+        printf("3. abajo-derecha (down-right)\n");
+        printf("4. abajo-izquierda (down-left)\n");
+        printf("5. Caballo (abajo-abajo-derecha)\n");
+
+        scanf("%d", &option);
+    } while (option < 1 || option > 5);
+
+    switch (option) {
+        case 1: // arriba-derecha
+            *stepRow = -1;
+            *stepCol = 1;
+            break;
+        case 2: // arriba-izquierda
+            *stepRow = -1;
+            *stepCol = -1;
+            break;
+        case 3: // abajo-derecha
+            *stepRow = 1;
+            *stepCol = 1;
+            break;
+        case 4: // abajo-izquierda
+            *stepRow = 1;
+            *stepCol = -1;
+            break;
+        case 5: // caballo (abajo-abajo-derecha)
+            *stepRow = 2;
+            *stepCol = 1;
+            break;
+        default:
+            printf("Opción inválida. Usando movimiento por defecto (arriba-derecha).\n");
+            break;
+    }
+}
+
+// Algoritmo completo de cuadro mágico
+void magicSquareAlgorithm(int order, int stepRow, int stepCol, int initialRow, int initialCol) {
+    int row = initialRow, col = initialCol, breakMoveRow, breakMoveCol;
+    int square[order][order];
+    for (int i = 0; i < order; i++)
+        for (int j = 0; j < order; j++)
+            square[i][j] = 0;
+    if (stepRow == 2 && stepCol == 1) {
+        breakMoveRow = 4;
+        breakMoveCol = 0;
+    } else {
+        getBreakMove(row, col, &breakMoveRow, &breakMoveCol, order);
+    }
+    square[row][col] = 1;
+    for (int i = 2; i <= order * order; i++) {
+        row += stepRow;
+        col += stepCol;
+        edgeGuard(&row, &col, order);
+        if (square[row][col] == 0) {
+            square[row][col] = i;
         } else {
-            // subir (x-1 con wrap)
-            x = (x - 1 + N) % N;
-            printf("%2d: subir  -> (%d,%d)\n", k+1, x, y);
+            row -= stepRow;
+            col -= stepCol;
+            row += breakMoveRow;
+            col += breakMoveCol;
+            edgeGuard(&row, &col, order);
+            square[row][col] = i;
         }
     }
-    // Mover horizontalmente (continúa numeración)
-    for (k = 0; k < abs_int(dy); ++k) {
-        int step_no = abs_int(dx) + k + 1;
-        if (dy > 0) {
-            // derecha (y+1 con wrap)
-            y = (y + 1) % N;
-            printf("%2d: derecha -> (%d,%d)\n", step_no, x, y);
-        } else {
-            // izquierda (y-1 con wrap)
-            y = (y - 1 + N) % N;
-            printf("%2d: izquierda-> (%d,%d)\n", step_no, x, y);
+    int suma = order * (1 + order * order) / 2;
+    int valido = 1;
+    // Verificar filas
+    for (int i = 0; i < order; i++) {
+        int sumatoria = 0;
+        for (int j = 0; j < order; j++)
+            sumatoria += square[i][j];
+        if (sumatoria != suma) valido = 0;
+    }
+    // Verificar columnas
+    for (int i = 0; i < order; i++) {
+        int sumatoria = 0;
+        for (int j = 0; j < order; j++)
+            sumatoria += square[j][i];
+        if (sumatoria != suma) valido = 0;
+    }
+    // Verificar diagonales
+    int sumatoriaD = 0;
+    for (int i = 0; i < order; i++)
+        sumatoriaD += square[i][i];
+    if (sumatoriaD != suma) valido = 0;
+    sumatoriaD = 0;
+    for (int i = 0; i < order; i++)
+        sumatoriaD += square[i][order - 1 - i];
+    if (sumatoriaD != suma) valido = 0;
+    if (valido) {
+        printf("Cuadro válido\n");
+        printMatrix(order, square);
+    } else {
+        printf("Cuadro no válido\n");
+        printMatrix(order, square);
+    }
+}
+
+void recorrerTodasLasIniciales(int order, int stepRow, int stepCol) {
+    for (int a = 0; a < order; a++) {
+        for (int b = 0; b < order; b++) {
+            if (
+                b == 0 ||                // primera columna
+                a == order-1 ||          // última fila
+                a == b ||                // diagonal principal
+                (a == 0 && b == 0) ||    // esquina superior izquierda
+                (a == 0 && b == order-1) || // esquina superior derecha
+                (a == order-1 && b == 0) || // esquina inferior izquierda
+                (a == order-1 && b == order-1) // esquina inferior derecha
+            ) {
+                continue;
+            }
+            magicSquareAlgorithm(order, stepRow, stepCol, a, b);
         }
     }
 }
 
-int main(void) {
-    int N = 5;              // ejemplo
-    int x1 = 1, y1 = 0;     // A
-    int x2 = 4, y2 = 3;     // B
-    // Si son diametralmente opuestos respecto al centro (0-based):
-    // (x2,y2) = (N-1-x1, N-1-y1)
+// MAIN //
+int main() {
+    // Inicializaciones
+    srand(time(0));
+    int order, stepRow, stepCol;
+    getOrder(&order);
+    getStep(&stepRow, &stepCol);
+    recorrerTodasLasIniciales(order, stepRow, stepCol);
+    return 0;   
 
-    printf("A (%d,%d) -> B (%d,%d) en N=%d\n", x1, y1, x2, y2, N);
-    print_route(x1, y1, x2, y2, N);
-    return 0;
 }
