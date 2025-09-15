@@ -18,8 +18,6 @@ void edgeGuard(int *row, int *col, int order) {
         *col = *col - order;
 }
 
-
-
 // FUNCIONES GET
 void getInitialPosition(int order, int *row, int *col) {
     int a = 0,b = 0,mid = 0;
@@ -57,15 +55,6 @@ void getOrder(int *order) {
     } while (*order % 2 == 0 || *order < 3 || *order > 21);
 }
 
-void print(const int square[3][3], int order){
-    for (int i = 0; i < order; i++) {
-        for (int j = 0; j < order; j++) {
-            printf("%3d ", square[i][j]);
-        }
-        printf("\n");
-    }
-}
-
 void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow, int *breakMoveCol, int order){
     int finalRow, finalCol;
     getFinalPosition(&order, initialRow, initialCol, &finalRow, &finalCol);
@@ -76,6 +65,8 @@ void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow,
 
 // MAIN
 int main() {
+    srand(time(0));
+
     int order, row, col, breakMoveRow, breakMoveCol;
 
     getOrder(&order);
@@ -120,15 +111,16 @@ int main() {
 
             square[row][col] = i;
         }
-
-        print(square, order);
-        getchar();
-        
     }
 
     // imprimir el cuadro mágico
     printf("\nCuadro Magico de orden %d:\n", order);
-    print(square, order);
+    for (int i = 0; i < order; i++) {
+        for (int j = 0; j < order; j++) {
+            printf("%3d ", square[i][j]);
+        }
+        printf("\n");
+    }
 
     int suma = order * (1 + pow(order, 2)) / 2;
     printf("\nSuma que debe dar en todas: %d\n\n", suma);
