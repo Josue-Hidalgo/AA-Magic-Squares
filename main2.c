@@ -32,7 +32,8 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
     int a = 0, b = 0;
     // arriba - derecha
     if (*stepRow == -1 && *stepCol == 1) {
-        while (b == 0 || a == order - 1 || a + b == order - 1) {
+        // inválidas: fila orden - 1, columna 0, diagonal secundaria
+        while (a == order - 1 || b == 0 || a + b == order - 1) {
             a = rand() % order;
             b = rand() % order;
         }
@@ -40,7 +41,8 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
 
     // arriba - izquierda
     if (*stepRow == -1 && *stepCol == -1) {
-        while (b == order - 1 || a == order - 1 || a == b) {
+        // inválidas: fila y columna orden - 1, diagonal principal
+        while (a == order - 1 || b == order - 1 || a == b) {
             a = rand() % order;
             b = rand() % order;
         }
@@ -48,7 +50,8 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
     
     // abajo - derecha
     if (*stepRow == 1 && *stepCol == 1) {
-        while (b == 0 || a == 0 || a == b) {
+        // inválidas: fila y columna 0, diagonal principal
+        while (a == 0 || b == 0 || a == b) {
             a = rand() % order;
             b = rand() % order;
         }
@@ -56,7 +59,8 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
 
     // abajo - izquierda
     if (*stepRow == 1 && *stepCol == -1) {
-        while (b == order - 1 || a == 0 || a + b == order - 1) {
+        // inválidas: fila 0, columna orden - 1, diagonal secundaria
+        while (a == 0 || b == order - 1 || a + b == order - 1) {
             a = rand() % order;
             b = rand() % order;
         }
@@ -64,10 +68,15 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
 
     // caballo
     if (*stepRow == 2 && *stepCol == 1) {
-        while (b != order / 2 || a != 0) {
-            a = rand() % order;
-            b = rand() % order;
+        // inválidas: todas menos la fila 0 en el medio (SOLO ORDEN 3)
+        if (order == 3) {
+            while (a != 0 || b != order / 2 ) {
+                a = rand() % order;
+                b = rand() % order;
+            }
         }
+        a = rand() % order;
+        b = rand() % order;
     }
     *row = a;
     *col = b;
