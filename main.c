@@ -17,7 +17,7 @@ void edgeGuard(int *row, int *col, int order) {
         *col = *col - order;
 }
 
-void guessInitialBox(int order, int *row, int *col, int option) {
+void guessInitialBox(int order, int *row, int *col) {
     int a,b,mid;
     mid = (order - 1) / 2;
 
