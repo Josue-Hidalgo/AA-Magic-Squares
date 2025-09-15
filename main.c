@@ -18,15 +18,7 @@ void edgeGuard(int *row, int *col, int order) {
         *col = *col - order;
 }
 
-void breakMove(int *row, int *col, const int *rowFinal, const int *colFinal, int order) {
-    int intialRow, initialCol;
 
-    int rowBreakMove = *row - *rowFinal;
-    int colBreakMove = *col - *colFinal;
-
-    *row -= rowBreakMove;
-    *col -= colBreakMove;
-}
 
 // FUNCIONES GET
 void getInitialPosition(int order, int *row, int *col) {
@@ -47,9 +39,9 @@ void getInitialPosition(int order, int *row, int *col) {
     *col = b;
 }
 
-void getFinalPosition(int order, const int row, const int col, int *rowFinal, int *colFinal) {
+void getFinalPosition(const int *order, const int row, const int col, int *rowFinal, int *colFinal) {
     int a,b,mid;
-    mid = (order - 1) / 2;
+    mid = (*order - 1) / 2;
 
     a = 2 * mid - (row);
     b = 2 * mid - (col);
@@ -74,9 +66,17 @@ void print(const int square[3][3], int order){
     }
 }
 
+void getBreakMove(const int initialRow, const int initialCol, int *breakMoveRow, int *breakMoveCol, int order){
+    int finalRow, finalCol;
+    getFinalPosition(&order, initialRow, initialCol, &finalRow, &finalCol);
+
+    *breakMoveRow = initialRow - finalRow;
+    *breakMoveCol = initialCol - finalCol;
+}
+
 // MAIN
 int main() {
-    int order, row, col, rowFinal, colFinal;
+    int order, row, col, breakMoveRow, breakMoveCol;
 
     getOrder(&order);
     
@@ -90,7 +90,8 @@ int main() {
     }
 
     getInitialPosition(order, &row, &col);
-    getFinalPosition(order, row, col, &rowFinal, &colFinal);
+    
+    getBreakMove(row, col, &breakMoveRow, &breakMoveCol, order);
 
     // pone un 1 en una posición inicial aleatoria
     square[row][col] = 1;
@@ -113,7 +114,8 @@ int main() {
             col = col - 1;
             
             // y hace el break move (bajar 1)
-            breakMove(&row, &col, &rowFinal, &colFinal, order);
+            row += breakMoveRow;
+            col += breakMoveCol;
             edgeGuard(&row, &col, order); // revisa de nuevo si se salió del cuadro
 
             square[row][col] = i;
