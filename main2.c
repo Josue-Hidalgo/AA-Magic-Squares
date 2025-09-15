@@ -5,24 +5,37 @@
 
 // FUNCIONES AUXILIARES
 // Recorrer todas las posiciones iniciales válidas
-void getAllValidInitialPositions(int order) {
-    printf("Posiciones iniciales válidas:\n");
-    for (int a = 0; a < order; a++) {
-        for (int b = 0; b < order; b++) {
-            if (
-                b == 0 ||                // primera columna
-                a == order-1 ||          // última fila
-                a == b ||                // diagonal principal
-                (a == 0 && b == 0) ||    // esquina superior izquierda
-                (a == 0 && b == order-1) || // esquina superior derecha
-                (a == order-1 && b == 0) || // esquina inferior izquierda
-                (a == order-1 && b == order-1) // esquina inferior derecha
-            ) {
-                continue;
+void getAllValidInitialPositions(int order, int stepRow, int stepCol) {
+        printf("Posiciones iniciales válidas:\n");
+        for (int a = 0; a < order; a++) {
+            for (int b = 0; b < order; b++) {
+                int noApta = 0;
+                // u-r: stepRow = -1, stepCol = 1
+                if (stepRow == -1 && stepCol == 1) {
+                    if (a + b == order - 1 || b == 0 || a == order-1) noApta = 1;
+                }
+                // u-l: stepRow = -1, stepCol = -1
+                else if (stepRow == -1 && stepCol == -1) {
+                    if (a == b || b == order-1 || a == order-1) noApta = 1;
+                }
+                // d-r: stepRow = 1, stepCol = 1
+                else if (stepRow == 1 && stepCol == 1) {
+                    if (a == b || b == 0 || a == 0) noApta = 1;
+                }
+                // d-l: stepRow = 1, stepCol = -1
+                else if (stepRow == 1 && stepCol == -1) {
+                    if (a + b == order - 1 || b == order-1 || a == 0) noApta = 1;
+                }
+                // d-d-r: stepRow = 2, stepCol = 1 (caballo)
+                else if (stepRow == 2 && stepCol == 1) {
+                    // Sugerencia: puedes definir aquí los valores no válidos para el caballo
+                    // Por ejemplo, podrías excluir esquinas:
+                    if ((a == 0 && b == 0) || (a == 0 && b == order-1) || (a == order-1 && b == 0) || (a == order-1 && b == order-1)) noApta = 1;
+                }
+                if (noApta) continue;
+                printf("(%d, %d)\n", a, b);
             }
-            printf("(%d, %d)\n", a, b);
         }
-    }
 }
 
 // Imprimir matriz cuadrada
@@ -47,19 +60,18 @@ void edgeGuard(int *row, int *col, int order) {
         *col = *col - order;
 }
 
-
 // Casilla Inicial
 void getInitialPosition(int order, int *row, int *col) {
     int a = 0, b = 0;
     while (
-    b == 0 ||                // primera columna
-    a == order-1 ||          // última fila
-    a == b ||                // diagonal principal
-    (a == 0 && b == 0) ||    // esquina superior izquierda
-    (a == 0 && b == order-1) || // esquina superior derecha
-    (a == order-1 && b == 0) || // esquina inferior izquierda
-    (a == order-1 && b == order-1) // esquina inferior derecha
-    ) {
+                b == 0 ||
+                a == order-1 ||
+                a + b == order - 1 ||          // diagonal secundaria
+                (a == 0 && b == 0) ||
+                (a == 0 && b == order-1) ||
+                (a == order-1 && b == 0) ||
+                (a == order-1 && b == order-1)
+    ){
         a = rand() % order;
         b = rand() % order;
     }
@@ -212,6 +224,11 @@ void magicSquareAlgorithm(int order, int stepRow, int stepCol, int initialRow, i
         printMatrix(order, square);
     } else {
         printf("Cuadro no válido\n");
+        printf("Inicial: (%d, %d)\n", initialRow, initialCol);
+        int finalRow, finalCol;
+        getFinalPosition(&order, initialRow, initialCol, &finalRow, &finalCol);
+        printf("Final: (%d, %d)\n", finalRow, finalCol);
+        printf("BreakMove: (%d, %d)\n", breakMoveRow, breakMoveCol);
         printMatrix(order, square);
     }
 }
@@ -220,14 +237,14 @@ void recorrerTodasLasIniciales(int order, int stepRow, int stepCol) {
     for (int a = 0; a < order; a++) {
         for (int b = 0; b < order; b++) {
             if (
-                b == 0 ||                // primera columna
-                a == order-1 ||          // última fila
-                a == b ||                // diagonal principal
-                (a == 0 && b == 0) ||    // esquina superior izquierda
-                (a == 0 && b == order-1) || // esquina superior derecha
-                (a == order-1 && b == 0) || // esquina inferior izquierda
-                (a == order-1 && b == order-1) // esquina inferior derecha
-            ) {
+                b == 0 ||
+                a == order-1 ||
+                a + b == order - 1 ||          // diagonal secundaria
+                (a == 0 && b == 0) ||
+                (a == 0 && b == order-1) ||
+                (a == order-1 && b == 0) ||
+                (a == order-1 && b == order-1)
+            ){
                 continue;
             }
             magicSquareAlgorithm(order, stepRow, stepCol, a, b);

@@ -26,7 +26,6 @@ void edgeGuard(int *row, int *col, int order) {
         *col = *col - order;
 }
 
-
 // Casilla Inicial
 void getInitialPosition(int order, int *row, int *col) {
     int a = 0, b = 0;
