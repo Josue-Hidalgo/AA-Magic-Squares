@@ -19,11 +19,6 @@
     <property name="can-focus">False</property>
     <property name="pixbuf">Images/1.png</property>
   </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="pixbuf">Images/3.png</property>
-  </object>
   <object class="GtkWindow" id="IDWindow">
     <property name="can-focus">False</property>
     <child>
@@ -168,7 +163,7 @@
           </packing>
         </child>
         <child>
-          <!-- n-columns=3 n-rows=1 -->
+          <!-- n-columns=2 n-rows=1 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -200,22 +195,9 @@
                 <property name="top-attach">0</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkButton" id="IDReset">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="image">image3</property>
-                <property name="relief">none</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
           </object>
           <packing>
-            <property name="x">167</property>
+            <property name="x">280</property>
             <property name="y">900</property>
           </packing>
         </child>
