@@ -75,8 +75,16 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
                 b = rand() % order;
             }
         }
-        a = rand() % order;
-        b = rand() % order;
+        else if (order == 9 || order == 15 || order || 21) {
+            while (a %3 != 0 || b % 3 != 1) {
+                a = rand() % order;
+                b = rand() % order;
+            }
+        } else {
+            a = rand() % order;
+            b = rand() % order;
+        }
+        
     }
     *row = a;
     *col = b;
