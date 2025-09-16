@@ -138,7 +138,7 @@ int minimal_disp(int a, int b, int N) {
     if (abs(cand3) < abs(best)) best = cand3;
     return best;
 }
-// Movimiento de Ruptura (Break Move) - VemagicSquarersión modificada para obtener los valores
+// Movimiento de Ruptura (Break Move) 
 void getBreakMoveFunc(const int initialRow, const int initialCol, int *breakMoveRow, int *breakMoveCol, int order, int stepRow, int stepCol){
     if (stepRow == 2 && stepCol == 1) {
         *breakMoveRow = 4;
