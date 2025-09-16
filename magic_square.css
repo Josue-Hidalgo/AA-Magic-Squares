@@ -1,0 +1,19 @@
+/* magic_square.css */
+#IDMatrix {
+    border: 2px solid #888888;
+    background: #000000;
+}
+
+#IDMatrix label {
+    font-family: "Press Start 2P Medium";
+    font-size: 10pt;
+    color: #ff69b4; /* rosa */
+    background: transparent;
+}
+
+#IDOrder, #IDForm {
+    font-family: "Press Start 2P Medium";
+    font-size: 10pt;
+    color: #ff69b4; /* rosa */
+    background: #000000;
+}
