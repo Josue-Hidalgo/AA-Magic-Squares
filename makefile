@@ -1,29 +1,13 @@
-# Nombre del compilador
 CC = gcc
+CFLAGS = `pkg-config --cflags gtk+-3.0`
+LDFLAGS = `pkg-config --libs gtk+-3.0`
+SRC = mainglade.c magic_square.c
+OUT = mainglade
 
-# Opciones de compilación
-CFLAGS = -Wall -Wextra -std=c11
+all: $(OUT)
 
-# Librerías
-LIBS = -lm
+$(OUT): $(SRC)
+	$(CC) $(SRC) -o $(OUT) $(CFLAGS) $(LDFLAGS)
 
-# Nombre del ejecutable
-TARGET = cuadro_magico
-
-# Archivos fuente
-SRC = main3.c
-
-# Regla por defecto
-all: $(TARGET)
-
-# Cómo construir el ejecutable
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LIBS)
-
-# Ejecutar el programa
-run: $(TARGET)
-	./$(TARGET)
-
-# Limpiar los archivos generados
 clean:
-	rm -f $(TARGET)
+	rm -f $(OUT)

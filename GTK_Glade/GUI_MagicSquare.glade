@@ -63,7 +63,7 @@
             <property name="height-request">34</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Insert ORDER (3-21)</property>
+            <property name="label" translatable="yes">INSERT ORDER (3-21)</property>
             <attributes>
               <attribute name="font-desc" value="Press Start 2P Medium 10"/>
               <attribute name="foreground" value="#c0c06161cbcb"/>
@@ -80,7 +80,7 @@
             <property name="height-request">38</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">FORM:</property>
+            <property name="label" translatable="yes">STEP</property>
             <attributes>
               <attribute name="font-desc" value="Press Start 2P Medium 10"/>
               <attribute name="foreground" value="#c0c06161cbcb"/>
@@ -156,7 +156,7 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
