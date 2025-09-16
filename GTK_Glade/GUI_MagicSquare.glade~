@@ -9,15 +9,20 @@
     <property name="step-increment">2</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkImage" id="IDFinalizeIMG">
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="pixbuf">Images/2.png</property>
+  </object>
+  <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="pixbuf">Images/1.png</property>
   </object>
-  <object class="GtkImage" id="IDStepIMG">
+  <object class="GtkImage" id="image3">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="pixbuf">Images/2.png</property>
+    <property name="pixbuf">Images/3.png</property>
   </object>
   <object class="GtkWindow" id="IDWindow">
     <property name="can-focus">False</property>
@@ -27,8 +32,8 @@
         <property name="can-focus">False</property>
         <child>
           <object class="GtkComboBoxText" id="IDForm">
-            <property name="width-request">168</property>
-            <property name="height-request">34</property>
+            <property name="width-request">200</property>
+            <property name="height-request">30</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="active-id">0</property>
@@ -37,44 +42,12 @@
               <item id="1" translatable="yes">UP-LEFT</item>
               <item id="2" translatable="yes">DOWN-RIGHT</item>
               <item id="3" translatable="yes">DOWN-LEFT</item>
+              <item id="4" translatable="yes">DOWN-DOWN-RIGHT</item>
             </items>
           </object>
           <packing>
-            <property name="x">525</property>
+            <property name="x">530</property>
             <property name="y">850</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="IDStepBtn">
-            <property name="width-request">-1</property>
-            <property name="height-request">-1</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="image">IDStepIMG</property>
-            <property name="relief">none</property>
-          </object>
-          <packing>
-            <property name="x">265</property>
-            <property name="y">900</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkToggleButton" id="IDFinalizeBtn">
-            <property name="width-request">36</property>
-            <property name="height-request">34</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="halign">center</property>
-            <property name="image">IDFinalizeIMG</property>
-            <property name="relief">none</property>
-            <property name="image-position">top</property>
-            <property name="always-show-image">True</property>
-          </object>
-          <packing>
-            <property name="x">525</property>
-            <property name="y">900</property>
           </packing>
         </child>
         <child>
@@ -90,14 +63,14 @@
             <property name="height-request">34</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">ORDER (3-21)</property>
+            <property name="label" translatable="yes">Insert ORDER (3-21)</property>
             <attributes>
               <attribute name="font-desc" value="Press Start 2P Medium 10"/>
               <attribute name="foreground" value="#c0c06161cbcb"/>
             </attributes>
           </object>
           <packing>
-            <property name="x">315</property>
+            <property name="x">245</property>
             <property name="y">825</property>
           </packing>
         </child>
@@ -116,269 +89,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">524</property>
+            <property name="x">550</property>
             <property name="y">825</property>
-          </packing>
-        </child>
-        <child>
-          <!-- n-columns=9 n-rows=9 -->
-          <object class="GtkGrid" id="IDMatrix">
-            <property name="width-request">500</property>
-            <property name="height-request">500</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="border-width">1</property>
-            <property name="row-spacing">9</property>
-            <property name="column-spacing">8</property>
-            <property name="row-homogeneous">True</property>
-            <property name="column-homogeneous">True</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="x">150</property>
-            <property name="y">200</property>
           </packing>
         </child>
         <child>
@@ -394,6 +106,117 @@
           <packing>
             <property name="x">270</property>
             <property name="y">850</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="IDBox">
+            <property name="width-request">500</property>
+            <property name="height-request">500</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <!-- n-columns=3 n-rows=3 -->
+              <object class="GtkGrid" id="IDMatrix">
+                <property name="width-request">500</property>
+                <property name="height-request">500</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="border-width">1</property>
+                <property name="row-spacing">5</property>
+                <property name="column-spacing">5</property>
+                <property name="row-homogeneous">True</property>
+                <property name="column-homogeneous">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="x">250</property>
+            <property name="y">200</property>
+          </packing>
+        </child>
+        <child>
+          <!-- n-columns=3 n-rows=1 -->
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-bottom">10</property>
+            <property name="column-spacing">15</property>
+            <child>
+              <object class="GtkButton" id="IDStep">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="image">image1</property>
+                <property name="relief">none</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="IDFinalize">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="image">image2</property>
+                <property name="relief">none</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="IDReset">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="image">image3</property>
+                <property name="relief">none</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="x">167</property>
+            <property name="y">900</property>
           </packing>
         </child>
       </object>
