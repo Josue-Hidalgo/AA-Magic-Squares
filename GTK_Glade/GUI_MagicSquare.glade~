@@ -2,6 +2,13 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkAdjustment" id="IDAdjustment">
+    <property name="lower">3</property>
+    <property name="upper">21</property>
+    <property name="value">3</property>
+    <property name="step-increment">2</property>
+    <property name="page-increment">10</property>
+  </object>
   <object class="GtkImage" id="IDFinalizeIMG">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -34,18 +41,6 @@
           </object>
           <packing>
             <property name="x">525</property>
-            <property name="y">850</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="IDOrder">
-            <property name="width-request">168</property>
-            <property name="height-request">34</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-          </object>
-          <packing>
-            <property name="x">315</property>
             <property name="y">850</property>
           </packing>
         </child>
@@ -126,17 +121,233 @@
           </packing>
         </child>
         <child>
-          <!-- n-columns=3 n-rows=3 -->
+          <!-- n-columns=9 n-rows=9 -->
           <object class="GtkGrid" id="IDMatrix">
             <property name="width-request">500</property>
             <property name="height-request">500</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="border-width">1</property>
-            <property name="row-spacing">10</property>
-            <property name="column-spacing">10</property>
+            <property name="row-spacing">9</property>
+            <property name="column-spacing">8</property>
             <property name="row-homogeneous">True</property>
             <property name="column-homogeneous">True</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
             <child>
               <placeholder/>
             </child>
@@ -168,6 +379,21 @@
           <packing>
             <property name="x">150</property>
             <property name="y">200</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="IDOrder">
+            <property name="width-request">200</property>
+            <property name="height-request">25</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">IDAdjustment</property>
+            <property name="climb-rate">2</property>
+            <property name="value">3</property>
+          </object>
+          <packing>
+            <property name="x">270</property>
+            <property name="y">850</property>
           </packing>
         </child>
       </object>
