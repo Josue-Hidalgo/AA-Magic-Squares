@@ -11,7 +11,7 @@ LIBS = -lm
 TARGET = cuadro_magico
 
 # Archivos fuente
-SRC = main2.c
+SRC = main3.c
 
 # Regla por defecto
 all: $(TARGET)
