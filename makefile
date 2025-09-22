@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = `pkg-config --cflags gtk+-3.0`
 LDFLAGS = `pkg-config --libs gtk+-3.0`
 SRC = mainglade.c magic_square.c
-OUT = mainglade
+OUT = MagicSquareMaker
 
 all: $(OUT)
 
