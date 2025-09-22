@@ -330,9 +330,6 @@ void initStepState(int order, int stepRow, int stepCol, StepState *state) {
     // Obtener posición inicial y break move
     getInitialPosition(order, &state->current_row, &state->current_col, &stepRow, &stepCol);
     getBreakMoveFunc(state->current_row, state->current_col, &state->break_move_row, &state->break_move_col, order, stepRow, stepCol);
-    
-    printf("Inicializado: posición (%d, %d), break move (%d, %d)\n", 
-           state->current_row, state->current_col, state->break_move_row, state->break_move_col);
 }
 
 // Función para liberar memoria
@@ -351,7 +348,6 @@ void freeStepState(StepState *state) {
 // Función para avanzar un paso - VERSIÓN COMPLETA CORREGIDA
 int getNextStep(int order, int stepRow, int stepCol, StepState *state) {
     if (!state->initialized || state->magic_square == NULL) {
-        printf("Error: Estado no inicializado\n");
         return 0; // No inicializado
     }
     
@@ -359,13 +355,11 @@ int getNextStep(int order, int stepRow, int stepCol, StepState *state) {
     if (state->current_number == 0) {
         state->magic_square[state->current_row][state->current_col] = 1;
         state->current_number = 1;
-        printf("Paso 1: colocado en (%d, %d)\n", state->current_row, state->current_col);
         return 1; // Primer paso completado
     }
     
     // Si ya terminamos
     if (state->current_number >= order * order) {
-        printf("Cuadro completado con %d números\n", state->current_number);
         return 0; // No hay más pasos
     }
     
@@ -373,25 +367,17 @@ int getNextStep(int order, int stepRow, int stepCol, StepState *state) {
     int row = state->current_row;
     int col = state->current_col;
     
-    printf("Paso %d: desde (%d, %d)\n", next_number, row, col);
-    
     // MOVIMIENTO PRINCIPAL
     int try_row = row + stepRow;
     int try_col = col + stepCol;
     edgeGuard(&try_row, &try_col, order);
-    
-    printf("  Movimiento principal a (%d, %d) - ", try_row, try_col);
     
     if (state->magic_square[try_row][try_col] == 0) {
         // Casilla libre
         state->magic_square[try_row][try_col] = next_number;
         state->current_row = try_row;
         state->current_col = try_col;
-        printf("LIBRE - número %d colocado\n", next_number);
     } else {
-        // Casilla ocupada - movimiento alternativo
-        printf("OCUPADO - movimiento alternativo\n");
-        
         // Volver a posición original
         try_row = row;
         try_col = col;
@@ -400,8 +386,6 @@ int getNextStep(int order, int stepRow, int stepCol, StepState *state) {
         try_row += state->break_move_row;
         try_col += state->break_move_col;
         edgeGuard(&try_row, &try_col, order);
-        
-        printf("  Movimiento alternativo a (%d, %d)\n", try_row, try_col);
         
         state->magic_square[try_row][try_col] = next_number;
         state->current_row = try_row;

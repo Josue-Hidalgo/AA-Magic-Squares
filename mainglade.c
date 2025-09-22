@@ -100,7 +100,6 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
     
     // Inicializar si es el primer paso
     if (!step_state.initialized) {
-        printf("Inicializando paso a paso con orden %d\n", order);
         initStepState(order, stepRow, stepCol, &step_state);
         
         // Crear grid vacío
@@ -113,10 +112,7 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
     if (result) {
         // Actualizar solo la celda actual
         update_single_cell(grid, order, step_state.magic_square, step_state.current_row, step_state.current_col);
-        printf("Paso %d completado en (%d, %d)\n", 
-               step_state.current_number, step_state.current_row, step_state.current_col);
     } else {
-        printf("Cuadro mágico completado!\n");
         // Mostrar mensaje en la interfaz
         GtkLabel *status_label = GTK_LABEL(gtk_builder_get_object(builder, "IDStatusLabel"));
         if (status_label != NULL) {
