@@ -35,65 +35,6 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="IDBox">
-            <property name="width-request">250</property>
-            <property name="height-request">250</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <!-- n-columns=3 n-rows=3 -->
-              <object class="GtkGrid" id="IDMatrix">
-                <property name="width-request">250</property>
-                <property name="height-request">250</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="border-width">1</property>
-                <property name="row-spacing">5</property>
-                <property name="column-spacing">5</property>
-                <property name="row-homogeneous">True</property>
-                <property name="column-homogeneous">True</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="x">140</property>
-            <property name="y">110</property>
-          </packing>
-        </child>
-        <child>
           <!-- n-columns=2 n-rows=3 -->
           <object class="GtkGrid" id="IDGetters">
             <property name="width-request">100</property>
@@ -207,6 +148,82 @@
           <packing>
             <property name="x">20</property>
             <property name="y">400</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="IDContainer">
+            <property name="width-request">350</property>
+            <property name="height-request">350</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="shadow-type">in</property>
+            <child>
+              <object class="GtkViewport">
+                <property name="width-request">100</property>
+                <property name="height-request">80</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkBox" id="IDBox">
+                    <property name="width-request">350</property>
+                    <property name="height-request">350</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <!-- n-columns=3 n-rows=3 -->
+                      <object class="GtkGrid" id="IDMatrix">
+                        <property name="width-request">250</property>
+                        <property name="height-request">250</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="border-width">1</property>
+                        <property name="row-spacing">5</property>
+                        <property name="column-spacing">5</property>
+                        <property name="row-homogeneous">True</property>
+                        <property name="column-homogeneous">True</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">70</property>
+            <property name="y">50</property>
           </packing>
         </child>
       </object>

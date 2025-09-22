@@ -7,6 +7,17 @@
 // FUNCIONES PRINCIPALES
 ////////////////////////////////////////////////////////////////////////////
 
+typedef struct {
+    int current_number;
+    int current_row;
+    int current_col;
+    int break_move_row;
+    int break_move_col;
+    int initialized;
+    int **magic_square;
+    int order;
+} StepState;
+
 // Orden (Luego se cambiará por inpun del GTKGlade)
 void getOrder(int *order) {
     do {
@@ -60,6 +71,24 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
     // arriba - derecha
     if (*stepRow == -1 && *stepCol == 1) {
         // inválidas: fila orden - 1, columna 0, diagonal secundaria
+        if (order == 21) {
+            int validas[][2] = {{0,1},{0,4},{0,10},{0,16},{0,19},
+            {1,2},{1,8},{1,11},{1,17},{1,20},
+            {3,1},{3,4},{3,13},{3,16},{3,19},
+            {4,5},{4,8},{4,11},{4,17},{4,20},
+            {7,2},{7,5},{7,8},{7,11},{7,17},
+            {9,1},{9,10},{9,13},{9,16},{9,19},
+            {10,2},{10,5},{10,8},{10,11},{10,20},
+            {12,4},{12,10},{12,13},{12,16},{12,19},
+            {15,1},{15,4},{15,10},{15,13},{15,16},
+            {16,2},{16,5},{16,8},{16,17},{16,20},
+            {18,1},{18,4},{18,10},{18,13},{18,19},
+            {19,2},{19,5},{19,11},{19,17},{19,20}
+        };
+        int idx = rand() % 60;
+        a = validas[idx][0];
+        b = validas[idx][1];
+        }
         while (a == order - 1 || b == 0 || a + b == order - 1) {
             a = rand() % order;
             b = rand() % order;
@@ -68,6 +97,24 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
 
     // arriba - izquierda
     if (*stepRow == -1 && *stepCol == -1) {
+        if (order == 21) {
+            int validas[][2] = {{0, 1},{0, 4},{0, 10},{0, 16},{0, 19},
+            {1, 0},{1, 3},{1, 9},{1, 12},{1, 18},
+            {3, 1},{3, 4},{3, 7},{3, 16},{3, 19},
+            {4, 0},{4, 3},{4, 9},{4, 12},{4, 15},
+            {7, 3},{7, 9},{7, 12},{7, 15},{7, 18},
+            {9, 1},{9, 4},{9, 7},{9, 10},{9, 19},
+            {10, 0},{10, 9},{10, 12},{10, 15},{10, 18},
+            {12, 1},{12, 4},{12, 7},{12, 10},{12, 16},
+            {15, 4},{15, 7},{15, 10},{15, 16},{15, 19},
+            {16, 0},{16, 3},{16, 12},{16, 15},{16, 18},
+            {18, 1},{18, 7},{18, 10},{18, 16},{18, 19},
+            {19, 0},{19, 3},{19, 9},{19, 15},{19, 18}
+        };
+        int idx = rand() % 60;
+        a = validas[idx][0];
+        b = validas[idx][1];
+        }
         // inválidas: fila y columna orden - 1, diagonal principal
         while (a == order - 1 || b == order - 1 || a == b) {
             a = rand() % order;
@@ -77,6 +124,25 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
     
     // abajo - derecha
     if (*stepRow == 1 && *stepCol == 1) {
+        if (order == 21) {
+            int validas[][2] = {{1, 2},{1, 5},{1, 11},{1, 17},{1, 20},
+            {2, 1},{2, 4},{2, 10},{2, 13},{2, 19},
+            {4, 2},{4, 5},{4, 8},{4, 17},{4, 20},
+            {5, 1},{5, 4},{5, 10},{5, 13},{5, 16},
+            {8, 4},{8, 10},{8, 13},{8, 16},{8, 19},
+            {10, 2},{10, 5},{10, 8},{10, 11},{10, 20},
+            {11, 1},{11, 10},{11, 13},{11, 16},{11, 19},
+            {13, 2},{13, 5},{13, 8},{13, 11},{13, 17},
+            {16, 5},{16, 8},{16, 11},{16, 17},{16, 20},
+            {17, 1},{17, 4},{17, 13},{17, 16},{17, 19},
+            {19, 2},{19, 8},{19, 11},{19, 17},{19, 20},
+            {20, 1},{20, 4},{20, 10},{20, 16},{20, 19}
+        };
+        int idx = rand() % 60;
+        a = validas[idx][0];
+        b = validas[idx][1];
+        }
+
         // inválidas: fila y columna 0, diagonal principal
         while (a == 0 || b == 0 || a == b) {
             a = rand() % order;
@@ -86,6 +152,24 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
 
     // abajo - izquierda
     if (*stepRow == 1 && *stepCol == -1) {
+        if (order == 21) {
+            int validas[][2] = {{1, 0},{1, 3},{1, 9},{1, 15},{1, 18},
+            {2, 1},{2, 7},{2, 10},{2, 16},{2, 19},
+            {4, 0},{4, 3},{4, 12},{4, 15},{4, 18},
+            {5, 4},{5, 7},{5, 10},{5, 16},{5, 19},
+            {8, 1},{8, 4},{8, 7},{8, 10},{8, 16},
+            {10, 0},{10, 9},{10, 12},{10, 15},{10, 18},
+            {11, 1},{11, 4},{11, 7},{11, 10},{11, 19},
+            {13, 3},{13, 9},{13, 12},{13, 15},{13, 18},
+            {16, 0},{16, 3},{16, 9},{16, 12},{16, 15},
+            {17, 1},{17, 4},{17, 7},{17, 16},{17, 19},
+            {19, 0},{19, 3},{19, 9},{19, 12},{19, 18},
+            {20, 1},{20, 4},{20, 10},{20, 16},{20, 19}
+        };
+        int idx = rand() % 60;
+        a = validas[idx][0];
+        b = validas[idx][1];
+        }
         // inválidas: fila 0, columna orden - 1, diagonal secundaria
         while (a == 0 || b == order - 1 || a + b == order - 1) {
             a = rand() % order;
@@ -102,7 +186,7 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
                 b = rand() % order;
             }
         }
-        else if (order == 9 || order == 15 || order || 21) {
+        else if (order == 9 || order == 15 || order == 21) {
             while (a %3 != 0 || b % 3 != 1) {
                 a = rand() % order;
                 b = rand() % order;
@@ -230,6 +314,102 @@ void getMagicSquareStatistics(int order, int stepRow, int stepCol, int (*magicSq
         *sumaDiagonalPrincipal += (*magicSquare)[i][i];
         *sumaDiagonalSecundaria += (*magicSquare)[i][order - 1 - i];
     }
+}
+// Función para inicializar el estado paso a paso
+void initStepState(int order, int stepRow, int stepCol, StepState *state) {
+    state->current_number = 0;
+    state->initialized = 1;
+    state->order = order;
+    
+    // Crear matriz dinámica
+    state->magic_square = (int **)malloc(order * sizeof(int *));
+    for (int i = 0; i < order; i++) {
+        state->magic_square[i] = (int *)calloc(order, sizeof(int));
+    }
+    
+    // Obtener posición inicial y break move
+    getInitialPosition(order, &state->current_row, &state->current_col, &stepRow, &stepCol);
+    getBreakMoveFunc(state->current_row, state->current_col, &state->break_move_row, &state->break_move_col, order, stepRow, stepCol);
+    
+    printf("Inicializado: posición (%d, %d), break move (%d, %d)\n", 
+           state->current_row, state->current_col, state->break_move_row, state->break_move_col);
+}
+
+// Función para liberar memoria
+void freeStepState(StepState *state) {
+    if (state->magic_square != NULL) {
+        for (int i = 0; i < state->order; i++) {
+            free(state->magic_square[i]);
+        }
+        free(state->magic_square);
+        state->magic_square = NULL;
+    }
+    state->initialized = 0;
+    state->current_number = 0;
+}
+
+// Función para avanzar un paso - VERSIÓN COMPLETA CORREGIDA
+int getNextStep(int order, int stepRow, int stepCol, StepState *state) {
+    if (!state->initialized || state->magic_square == NULL) {
+        printf("Error: Estado no inicializado\n");
+        return 0; // No inicializado
+    }
+    
+    // Si es el primer número (1)
+    if (state->current_number == 0) {
+        state->magic_square[state->current_row][state->current_col] = 1;
+        state->current_number = 1;
+        printf("Paso 1: colocado en (%d, %d)\n", state->current_row, state->current_col);
+        return 1; // Primer paso completado
+    }
+    
+    // Si ya terminamos
+    if (state->current_number >= order * order) {
+        printf("Cuadro completado con %d números\n", state->current_number);
+        return 0; // No hay más pasos
+    }
+    
+    int next_number = state->current_number + 1;
+    int row = state->current_row;
+    int col = state->current_col;
+    
+    printf("Paso %d: desde (%d, %d)\n", next_number, row, col);
+    
+    // MOVIMIENTO PRINCIPAL
+    int try_row = row + stepRow;
+    int try_col = col + stepCol;
+    edgeGuard(&try_row, &try_col, order);
+    
+    printf("  Movimiento principal a (%d, %d) - ", try_row, try_col);
+    
+    if (state->magic_square[try_row][try_col] == 0) {
+        // Casilla libre
+        state->magic_square[try_row][try_col] = next_number;
+        state->current_row = try_row;
+        state->current_col = try_col;
+        printf("LIBRE - número %d colocado\n", next_number);
+    } else {
+        // Casilla ocupada - movimiento alternativo
+        printf("OCUPADO - movimiento alternativo\n");
+        
+        // Volver a posición original
+        try_row = row;
+        try_col = col;
+        
+        // Aplicar break move
+        try_row += state->break_move_row;
+        try_col += state->break_move_col;
+        edgeGuard(&try_row, &try_col, order);
+        
+        printf("  Movimiento alternativo a (%d, %d)\n", try_row, try_col);
+        
+        state->magic_square[try_row][try_col] = next_number;
+        state->current_row = try_row;
+        state->current_col = try_col;
+    }
+    
+    state->current_number = next_number;
+    return 1; // Paso completado
 }
 // Imprimir matriz cuadrada
 void printMatrix(int order, int (*magicSquare)[order][order]) {

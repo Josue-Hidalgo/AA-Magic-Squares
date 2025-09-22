@@ -69,6 +69,7 @@
                 <property name="receives-default">True</property>
                 <property name="image">image1</property>
                 <property name="relief">none</property>
+                <signal name="clicked" handler="on_step_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">0</property>
