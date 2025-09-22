@@ -1445,7 +1445,7 @@
           </object>
           <packing>
             <property name="x">965</property>
-            <property name="y">400</property>
+            <property name="y">300</property>
           </packing>
         </child>
         <child>
@@ -1530,7 +1530,81 @@
           </object>
           <packing>
             <property name="x">950</property>
-            <property name="y">220</property>
+            <property name="y">120</property>
+          </packing>
+        </child>
+        <child>
+          <!-- n-columns=1 n-rows=4 -->
+          <object class="GtkGrid" id="IDDiagonalDisplayContainer">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="row-spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="IDDiagonal1">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">PRINCIPAL DIAGONAL</property>
+                <attributes>
+                  <attribute name="font-desc" value="Press Start 2P Medium 10"/>
+                  <attribute name="foreground" value="#c0c06161cbcb"/>
+                  <attribute name="underline-color" value="#c0c06161cbcb"/>
+                  <attribute name="strikethrough-color" value="#c0c06161cbcb"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="IDPDiag">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">0</property>
+                <attributes>
+                  <attribute name="font-desc" value="Press Start 2P Medium 10"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">SECONDARY DIAGONAL</property>
+                <attributes>
+                  <attribute name="font-desc" value="Press Start 2P Medium 10"/>
+                  <attribute name="foreground" value="#c0c06161cbcb"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="IDSDiag">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">0</property>
+                <attributes>
+                  <attribute name="font-desc" value="Press Start 2P Medium 10"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="x">950</property>
+            <property name="y">450</property>
           </packing>
         </child>
       </object>

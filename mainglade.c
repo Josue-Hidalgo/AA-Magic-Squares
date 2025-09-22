@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "magic_square.h"
 
-void fill_grid(GtkGrid *grid, int order, int magicSquare[order][order], int sumasFilas[order], int sumasColumnas[order], int sumaDiagonalPrincipal, int sumaDiagonalSecundaria) {
+void fill_grid(GtkGrid *grid, GtkBuilder *builder, int order, int magicSquare[order][order], int sumasFilas[order], int sumasColumnas[order], int sumaDiagonalPrincipal, int sumaDiagonalSecundaria) {
     // Limpiar el grid
     GList *children = gtk_container_get_children(GTK_CONTAINER(grid));
     for (GList *iter = children; iter != NULL; iter = g_list_next(iter))
@@ -16,11 +16,6 @@ void fill_grid(GtkGrid *grid, int order, int magicSquare[order][order], int suma
         GtkWidget *label = gtk_label_new(buf);
         gtk_grid_attach(grid, label, j + 1, 0, 1, 1);
     }
-    // Suma diagonal secundaria (última celda de la primera fila)
-    char buf_diag_sec[16];
-    snprintf(buf_diag_sec, sizeof(buf_diag_sec), "%d", sumaDiagonalSecundaria);
-    GtkWidget *label_diag_sec = gtk_label_new(buf_diag_sec);
-    gtk_grid_attach(grid, label_diag_sec, order, 0, 1, 1);
 
     // Sumas de filas (primera columna, excepto la primera celda)
     for (int i = 0; i < order; i++) {
@@ -29,11 +24,6 @@ void fill_grid(GtkGrid *grid, int order, int magicSquare[order][order], int suma
         GtkWidget *label = gtk_label_new(buf);
         gtk_grid_attach(grid, label, 0, i + 1, 1, 1);
     }
-    // Suma diagonal principal (última celda de la primera columna)
-    char buf_diag_prin[16];
-    snprintf(buf_diag_prin, sizeof(buf_diag_prin), "%d", sumaDiagonalPrincipal);
-    GtkWidget *label_diag_prin = gtk_label_new(buf_diag_prin);
-    gtk_grid_attach(grid, label_diag_prin, 0, order, 1, 1);
 
     // Celdas del cuadrado mágico
     for (int i = 0; i < order; i++) {
@@ -45,6 +35,15 @@ void fill_grid(GtkGrid *grid, int order, int magicSquare[order][order], int suma
         }
     }
     gtk_widget_show_all(GTK_WIDGET(grid));
+
+    // Actualizar labels de las diagonales
+    GtkLabel *label_diag_prin = GTK_LABEL(gtk_builder_get_object(builder, "IDPDiag"));
+    GtkLabel *label_diag_sec = GTK_LABEL(gtk_builder_get_object(builder, "IDSDiag"));
+    char buf_diag_prin[16], buf_diag_sec[16];
+    snprintf(buf_diag_prin, sizeof(buf_diag_prin), "%d", sumaDiagonalPrincipal);
+    snprintf(buf_diag_sec, sizeof(buf_diag_sec), "%d", sumaDiagonalSecundaria);
+    gtk_label_set_text(label_diag_prin, buf_diag_prin);
+    gtk_label_set_text(label_diag_sec, buf_diag_sec);
 }
 
 void on_finalize_clicked(GtkButton *button, gpointer user_data) {
@@ -74,9 +73,8 @@ void on_finalize_clicked(GtkButton *button, gpointer user_data) {
 
     getMagicSquareStatistics(order, stepRow, stepCol, &magicSquare, sumasFilas, sumasColumnas, &sumaDiagonalPrincipal, &sumaDiagonalSecundaria);
 
-    fill_grid(grid, order, magicSquare, sumasFilas, sumasColumnas, sumaDiagonalPrincipal, sumaDiagonalSecundaria);
+    fill_grid(grid, builder, order, magicSquare, sumasFilas, sumasColumnas, sumaDiagonalPrincipal, sumaDiagonalSecundaria);
 }
-
 int main(int argc, char *argv[]) {
     GtkBuilder *builder;
     GtkWidget *window;
