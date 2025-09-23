@@ -3,6 +3,17 @@
 #include <math.h>
 #include <time.h> 
 
+typedef struct {
+    int current_number;
+    int current_row;
+    int current_col;
+    int break_move_row;
+    int break_move_col;
+    int initialized;
+    int **magic_square;
+    int order;
+} StepState;
+
 ////////////////////////////////////////////////////////////////////////////
 // FUNCIONES PRINCIPALES
 ////////////////////////////////////////////////////////////////////////////
@@ -175,7 +186,7 @@ void getInitialPosition(int order, int *row, int *col, int *stepRow, int *stepCo
                 b = rand() % order;
             }
         }
-        else if (order == 9 || order == 15 || order || 21) {
+        else if (order == 9 || order == 15 || order == 21) {
             while (a %3 != 0 || b % 3 != 1) {
                 a = rand() % order;
                 b = rand() % order;
@@ -319,4 +330,87 @@ void printVector(int size, int vector[size]) {
         printf("%d ", vector[i]);
     }
     printf("\n");
+}
+
+void initStepState(int order, int stepRow, int stepCol, StepState *state) {
+    state->current_number = 0;
+    state->initialized = 1;
+    state->order = order;
+    
+    // Crear matriz dinámica
+    state->magic_square = (int **)malloc(order * sizeof(int *));
+    for (int i = 0; i < order; i++) {
+        state->magic_square[i] = (int *)calloc(order, sizeof(int));
+    }
+    
+    // Obtener posición inicial y break move
+    getInitialPosition(order, &state->current_row, &state->current_col, &stepRow, &stepCol);
+    getBreakMoveFunc(state->current_row, state->current_col, &state->break_move_row, &state->break_move_col, order, stepRow, stepCol);
+}
+
+// Función para liberar memoria
+void freeStepState(StepState *state) {
+    if (state->magic_square != NULL) {
+        for (int i = 0; i < state->order; i++) {
+            free(state->magic_square[i]);
+        }
+        free(state->magic_square);
+        state->magic_square = NULL;
+    }
+    state->initialized = 0;
+    state->current_number = 0;
+}
+
+// Función para avanzar un paso
+int getNextStep(StepState *state, int stepRow, int stepCol) {
+    if (!state->initialized || state->magic_square == NULL) {
+        return 0;
+    }
+    
+    int order = state->order;
+    
+    // Si es el primer número (1)
+    if (state->current_number == 0) {
+        state->magic_square[state->current_row][state->current_col] = 1;
+        state->current_number = 1;
+        return 1;
+    }
+    
+    // Si ya terminamos
+    if (state->current_number >= order * order) {
+        return 0;
+    }
+    
+    int next_number = state->current_number + 1;
+    int row = state->current_row;
+    int col = state->current_col;
+    
+    // MOVIMIENTO PRINCIPAL
+    int try_row = row + stepRow;
+    int try_col = col + stepCol;
+    edgeGuard(&try_row, &try_col, order);
+    
+    if (state->magic_square[try_row][try_col] == 0) {
+        // Casilla libre
+        state->magic_square[try_row][try_col] = next_number;
+        state->current_row = try_row;
+        state->current_col = try_col;
+    } else {
+        
+        // Volver a posición original
+        try_row = row;
+        try_col = col;
+        
+        // Aplicar break move
+        try_row += state->break_move_row;
+        try_col += state->break_move_col;
+        edgeGuard(&try_row, &try_col, order);
+        
+        state->magic_square[try_row][try_col] = next_number;
+        state->current_row = try_row;
+        state->current_col = try_col;
+    }
+    
+    state->current_number = next_number;
+    return 1;
 }
