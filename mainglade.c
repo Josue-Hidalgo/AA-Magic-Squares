@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include "magic_square.h"
 
 static StepState step_state = {0};
@@ -33,7 +34,7 @@ void calculateCurrentSums(int order, int **magicSquare, int *sumasFilas, int *su
 void fill_grid(GtkGrid *grid, GtkBuilder *builder, int order, int **magicSquare, 
                int sumasFilas[order], int sumasColumnas[order], 
                int sumaDiagonalPrincipal, int sumaDiagonalSecundaria,
-               gboolean show_all_numbers) {
+               bool show_all_numbers) {
     
     // Limpiar el grid
     GList *children = gtk_container_get_children(GTK_CONTAINER(grid));
@@ -151,7 +152,7 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
         default: break;
     }
     
-    // Arrays para almacenar sumas actuales
+    // almacenar sumas actuales
     static int *sumasFilas = NULL;
     static int *sumasColumnas = NULL;
     static int sumaDiagonalPrincipal = 0;
@@ -159,12 +160,12 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
     static int current_order = 0;
     static int previous_order = 0;  // para trackear el orden anterior
     
-    // DETECTAR CAMBIO DE ORDEN y reiniciar estado
+    // detecta el cambio de orden y reinicia el estado
     if (step_state.initialized && previous_order != order) {
         freeStepState(&step_state);
         step_state.initialized = 0;
         
-        // Liberar arrays de sumas antiguos
+        // reiniciar sumas antiguas
         if (sumasFilas) free(sumasFilas);
         if (sumasColumnas) free(sumasColumnas);
         sumasFilas = NULL;
@@ -178,14 +179,14 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
         freeStepState(&step_state);
         step_state.initialized = 0; // Forzar reinicio
         
-        // También liberar arrays de sumas si el orden cambió
+        // También liberar sumas si el orden cambió
         if (sumasFilas) free(sumasFilas);
         if (sumasColumnas) free(sumasColumnas);
         sumasFilas = NULL;
         sumasColumnas = NULL;
     }
 
-    // Inicializar arrays de sumas si es el primer paso o cambió el orden
+    // Inicializar sumas si es el primer paso o cambió el orden
     if (!step_state.initialized || current_order != order) {
         if (sumasFilas) free(sumasFilas);
         if (sumasColumnas) free(sumasColumnas);
@@ -258,7 +259,7 @@ void on_finalize_clicked(GtkButton *button, gpointer user_data) {
         default: break;
     }
 
-    // Si hay un cuadro en progreso, COMPLETARLO en lugar de generar uno nuevo
+    // Si hay un cuadro en progreso, lo completa en lugar de generar uno nuevo
     if (step_state.initialized && step_state.current_number < order * order) {
         
         // Completar los números faltantes
@@ -282,7 +283,7 @@ void on_finalize_clicked(GtkButton *button, gpointer user_data) {
         free(sumasFilas);
         free(sumasColumnas);
     } else {
-        // Si no hay cuadro en progreso, generar uno nuevo
+        // Si no hay cuadro en progreso, genera uno nuevo
         int magicSquare[order][order];
         int sumasFilas[order];
         int sumasColumnas[order];

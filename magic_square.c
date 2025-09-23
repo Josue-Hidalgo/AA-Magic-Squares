@@ -376,7 +376,7 @@ int getNextStep(StepState *state, int stepRow, int stepCol) {
         return 1;
     }
     
-    // Si ya terminamos
+    // Si ya terminó
     if (state->current_number >= order * order) {
         return 0;
     }
@@ -385,7 +385,7 @@ int getNextStep(StepState *state, int stepRow, int stepCol) {
     int row = state->current_row;
     int col = state->current_col;
     
-    // MOVIMIENTO PRINCIPAL
+    // movimiento principal
     int try_row = row + stepRow;
     int try_col = col + stepCol;
     edgeGuard(&try_row, &try_col, order);
