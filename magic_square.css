@@ -2,18 +2,38 @@
 #IDMatrix {
     border: 2px solid #888888;
     background: #000000;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 0 16px #222 inset;
 }
 
-#IDMatrix label {
-    font-family: "Press Start 2P Medium";
+#IDMatrix .magic-cell {
+    font-family: "Press Start 2P Medium", monospace;
     font-size: 10pt;
-    color: #ff69b4; /* rosa */
-    background: transparent;
+    color: #ff69b4;
+    background: #111;
+    border: 2px solid #ff69b4;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px #ff69b4, 0 0 4px #222 inset;
+    padding: 8px 12px;
+    margin: 4px;
+    text-align: center;
+    min-width: 32px;
+    min-height: 32px;
+    transition: box-shadow 0.2s;
+}
+
+#IDMatrix .magic-cell:hover {
+    box-shadow: 0 0 12px #fff, 2px 2px 8px #ff69b4;
+    background: #222;
 }
 
 #IDOrder, #IDForm {
-    font-family: "Press Start 2P Medium";
+    font-family: "Press Start 2P Medium", monospace;
     font-size: 10pt;
-    color: #ff69b4; /* rosa */
+    color: #ff69b4;
     background: #000000;
+    border: 2px solid #ff69b4;
+    border-radius: 8px;
+    padding: 6px;
 }
