@@ -21,12 +21,14 @@
   </object>
   <object class="GtkWindow" id="IDWindow">
     <property name="can-focus">False</property>
+    <signal name="destroy" handler="exit_app2" swapped="no"/>
     <child>
       <object class="GtkFixed" id="IDFixed">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-end">2</property>
         <property name="margin-bottom">20</property>
+        <signal name="destroy" handler="exit_app" swapped="no"/>
         <child>
           <object class="GtkImage" id="IDTItle">
             <property name="width-request">6</property>
