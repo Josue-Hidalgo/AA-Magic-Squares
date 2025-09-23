@@ -33,7 +33,7 @@ void calculateCurrentSums(int order, int **magicSquare, int *sumasFilas, int *su
 void fill_grid(GtkGrid *grid, GtkBuilder *builder, int order, int **magicSquare, 
                int sumasFilas[order], int sumasColumnas[order], 
                int sumaDiagonalPrincipal, int sumaDiagonalSecundaria,
-               gboolean show_all_numbers) {  // ← AÑADIR este parámetro
+               gboolean show_all_numbers) {
     
     // Limpiar el grid
     GList *children = gtk_container_get_children(GTK_CONTAINER(grid));
@@ -157,6 +157,21 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
     static int sumaDiagonalPrincipal = 0;
     static int sumaDiagonalSecundaria = 0;
     static int current_order = 0;
+    static int previous_order = 0;  // para trackear el orden anterior
+    
+    // DETECTAR CAMBIO DE ORDEN y reiniciar estado
+    if (step_state.initialized && previous_order != order) {
+        freeStepState(&step_state);
+        step_state.initialized = 0;
+        
+        // Liberar arrays de sumas antiguos
+        if (sumasFilas) free(sumasFilas);
+        if (sumasColumnas) free(sumasColumnas);
+        sumasFilas = NULL;
+        sumasColumnas = NULL;
+    }
+    
+    previous_order = order;  // actualiza el orden anterior
     
     // Si el cuadro está completo, reiniciar para generar uno nuevo
     if (step_state.initialized && step_state.current_number >= order * order) {
@@ -195,7 +210,7 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
         // Crear grid vacío (mostrar solo números colocados)
         fill_grid(grid, builder, order, step_state.magic_square, 
                   sumasFilas, sumasColumnas, sumaDiagonalPrincipal, sumaDiagonalSecundaria,
-                  FALSE);  // ← FALSE = mostrar solo números ≠ 0
+                  FALSE);  // FALSE = mostrar solo números distintos de 0
     }
     
     // Avanzar un paso
@@ -210,7 +225,7 @@ void on_step_clicked(GtkButton *button, gpointer user_data) {
         // Cuando se completa, mostrar todos los números (por si hay ceros)
         fill_grid(grid, builder, order, step_state.magic_square, 
                   sumasFilas, sumasColumnas, sumaDiagonalPrincipal, sumaDiagonalSecundaria,
-                  TRUE);  // ← TRUE = mostrar todos los números
+                  TRUE);  // TRUE = mostrar todos los números
     }
 }
 
@@ -223,6 +238,16 @@ void on_finalize_clicked(GtkButton *button, gpointer user_data) {
     int order = gtk_spin_button_get_value_as_int(spin_order);
     int active_index = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_form));
     int stepRow = -1, stepCol = 1;
+
+    static int previous_order = 0;
+    
+    // detectar cambio de orden
+    if (step_state.initialized && previous_order != order) {
+        freeStepState(&step_state);
+        step_state.initialized = 0;
+    }
+    
+    previous_order = order;
     
     switch (active_index) {
         case 0: stepRow = -1; stepCol = 1; break;

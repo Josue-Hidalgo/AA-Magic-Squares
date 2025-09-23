@@ -1547,7 +1547,7 @@
               <object class="GtkLabel" id="IDDiagonal1">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">PRINCIPAL DIAGONAL</property>
+                <property name="label" translatable="yes">MAIN DIAGONAL</property>
                 <attributes>
                   <attribute name="font-desc" value="Press Start 2P Medium 10"/>
                   <attribute name="foreground" value="#c0c06161cbcb"/>
